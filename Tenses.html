@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Tenses Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .text {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .gap {
+            display: inline-flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        select {
+            padding: 5px;
+            margin: 0 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .explanation {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            display: none;
+        }
+        .score {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .infinitive {
+            color: #9b59b6;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>English Tenses Test</h1>
+    <h2>Choose the correct verb form</h2>
+    
+    <div class="text">
+        <h3>Tom's Day</h3>
+        <p>Every morning, Tom <span class="gap">(wake up) <select id="q1">
+            <option value="">Choose</option>
+            <option value="wakes up">wakes up</option>
+            <option value="is waking up">is waking up</option>
+            <option value="has woken up">has woken up</option>
+            <option value="woke up">woke up</option>
+        </select></span> at 7 o'clock. Right now, he <span class="gap">(eat) <select id="q2">
+            <option value="">Choose</option>
+            <option value="eats">eats</option>
+            <option value="ate">ate</option>
+            <option value="is eating">is eating</option>
+            <option value="has eaten">has eaten</option>
+        </select></span> his breakfast. Yesterday, he <span class="gap">(visit) <select id="q3">
+            <option value="">Choose</option>
+            <option value="visits">visits</option>
+            <option value="visited">visited</option>
+            <option value="was visiting">was visiting</option>
+            <option value="has visited">has visited</option>
+        </select></span> his grandmother. While he <span class="gap">(walk) <select id="q4">
+            <option value="">Choose</option>
+            <option value="walks">walks</option>
+            <option value="walked">walked</option>
+            <option value="was walking">was walking</option>
+            <option value="has walked">has walked</option>
+        </select></span> to school yesterday, it started to rain. Tom <span class="gap">(finish) <select id="q5">
+            <option value="">Choose</option>
+            <option value="finishes">finishes</option>
+            <option value="finished">finished</option>
+            <option value="has finished">has finished</option>
+            <option value="will finish">will finish</option>
+        </select></span> his homework soon. He <span class="gap">(live) <select id="q6">
+            <option value="">Choose</option>
+            <option value="lives">lives</option>
+            <option value="lived">lived</option>
+            <option value="has lived">has lived</option>
+            <option value="is living">is living</option>
+        </select></span> in this town since he was born.</p>
+    </div>
+
+    <button id="check-answers">Check Answers</button>
+    <div class="score" id="score"></div>
+
+    <script>
+        const correctAnswers = {
+            q1: "wakes up",
+            q2: "is eating",
+            q3: "visited",
+            q4: "was walking",
+            q5: "will finish",
+            q6: "has lived"
+        };
+
+        const explanations = {
+            q1: "Present Simple (wakes up) for routines and habitual actions",
+            q2: "Present Continuous (is eating) for actions happening now",
+            q3: "Past Simple (visited) for completed actions in the past",
+            q4: "Past Continuous (was walking) for actions in progress at specific time in the past",
+            q5: "Future Simple (will finish) for future actions and predictions",
+            q6: "Present Perfect (has lived) for actions that started in the past and continue to present"
+        };
+
+        document.getElementById('check-answers').addEventListener('click', function() {
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = 'q' + i;
+                const selectElement = document.getElementById(questionId);
+                const selectedValue = selectElement.value;
+                const gapElement = selectElement.parentElement;
+                
+                // Remove previous classes
+                gapElement.classList.remove('correct', 'incorrect');
+                
+                // Check answer
+                if (selectedValue === correctAnswers[questionId]) {
+                    gapElement.classList.add('correct');
+                    score++;
+                } else if (selectedValue !== "") {
+                    gapElement.classList.add('incorrect');
+                }
+                
+                // Show explanation
+                const explanation = document.createElement('div');
+                explanation.className = 'explanation';
+                explanation.textContent = explanations[questionId];
+                explanation.style.display = 'block';
+                
+                // Remove previous explanation if exists
+                const oldExplanation = gapElement.nextElementSibling;
+                if (oldExplanation && oldExplanation.className === 'explanation') {
+                    gapElement.parentNode.removeChild(oldExplanation);
+                }
+                
+                gapElement.parentNode.insertBefore(explanation, gapElement.nextSibling);
+            }
+            
+            // Show score
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `Your score: ${score} out of ${totalQuestions}`;
+            scoreElement.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
